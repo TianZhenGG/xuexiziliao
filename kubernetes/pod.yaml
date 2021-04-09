@@ -1,0 +1,76 @@
+apiVersion: v1  #版本号
+kind: Pod       #资源对象类型
+metadata:       #元数据
+  name: string  #pod的名称
+  namespace: string  #pod所属的命名空间
+  labels:  #自定义标签列表
+    - name: string
+  annotations:  #自定义注解列表
+    - name: string
+spec:  #pod的容器的详细定义
+  containers:  
+  - name: string   #容器的名称
+    image: string  #容器的镜像
+    imagePullPolicy: [Always|Never|IfNotPresent]  #镜像获取策略
+    command: [string]   #容器的启动命令列表
+    args: [string]      #启动命令参数
+    workingDir: string  #容器的工作目录
+    volumeMounts:       #挂载到容器内部的存储卷配置
+    - name: string
+      mountPath: string #挂载的目录
+      readOnly: boolean #是否只读挂载
+    ports:  #容器暴露的端口列表
+    - name: string  #端口名称
+      containerPort: int  #容器监听的端口
+      hostPort: int  #容器所在主机需要监听的端口
+      protocol: string  #端口协议
+    env: #容器中的环境变量
+    - name: string 
+      value: string
+    resources: #资源限制设置
+      limits: #最大使用资源
+        cpu: string
+        memory: string
+      requests: #请求时资源设置
+        cpu: string
+        memory: string
+    livenessProbe:  #对容器的健康检查
+      exec:  #通过命令的返回值
+        command: [string]
+      httpGet: #通过访问容器的端口的返回的状态码
+        path: string
+        port: number
+        host: string
+        scheme: string
+        httpHeaders:
+        - name: string
+          value: string
+      tcpSocket:  #通过tcpSocket
+        port: number
+      initialDelaySeconds: 0 #首次健康检查时间
+      timeoutSeconds: 0  #健康检查的超时时间
+      periodSeconds: 0  #每次健康检查的时间间隔
+      successThreshold: 0 
+      failureThreshold: 0
+    securityContext:
+      privileged: false
+  restartPolicy: [Always|Never|OnFailure] #pod的重启策略
+  nodeSelector: object  #指定的运行pod的node标签
+  imagePullSecrets:  
+  - name: string
+  hostNetwork: false  #是否使用主机网络模式
+  volumes:  #该pod上定义的共享存储卷列表
+  - name: string
+    emptyDir: {}  #临时挂载
+    hostPath:  #挂载宿主机目录
+      path: string
+    secret: #类型为secret存储卷
+      secretName: string
+      items:
+      - key: string
+        path: string
+    configMap: #类型为configMap的存储卷
+      name: string
+      items:
+      - key: string
+        path: string
